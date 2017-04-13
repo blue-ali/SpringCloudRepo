@@ -1,0 +1,36 @@
+server:
+  port: 8765
+  
+spring:
+  aop:
+    proxyTargetClass: true
+  logging:
+    config: classpath:log4j2.xml	# location of config file (default classpath:logback.xml for logback)
+
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          #strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 60000
+            
+ribbon:
+  ReadTimeout: 5000
+  ConnectTimeout: 2000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: true  
+  okhttp:
+    enabled: true
+
+zuul:
+  routes:
+    framework: 
+      path: /framework/**
+      serviceId: framework
+  add-proxy-headers: true #添加X-Forwarder-Host请求头到转发的请求中
